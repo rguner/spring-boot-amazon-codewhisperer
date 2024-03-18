@@ -30,7 +30,14 @@ public class ProductService {
     }
 
     public Product createProduct(Product product) {
+        if (containsTurkishCharacters(product.getTitle())) {
+            throw new RuntimeException("Title contains Turkish characters");
+        }
         return productRepository.save(product);
+    }
+
+    public boolean containsTurkishCharacters(String str) {
+        return str.matches(".*[İıĞğÜüŞşÖöÇç].*");
     }
 
     public Product getProductById(Long productId) {
@@ -69,4 +76,17 @@ public class ProductService {
         return productRepository.findByTitleAndPrice(title, price).orElseThrow(() ->
                 new RuntimeException("Not found getProductByTitleAndPrice with title and price = " + title + " " + price));
     }
+
+    // write a method to create 100 random product objects and save them to the database.
+    public void createRandomProducts() {
+        for (int i = 0; i < 100; i++) {
+            Product product = new Product();
+            product.setTitle("Product " + i);
+            product.setDescription("Description " + i);
+            product.setPrice(i);
+            productRepository.save(product);
+        }
+    }
+
+
 }

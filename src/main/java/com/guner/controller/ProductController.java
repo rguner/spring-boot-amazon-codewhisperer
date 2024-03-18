@@ -23,6 +23,12 @@ public class ProductController {
 
     private ProductService productService;
 
+    @PostMapping("/createRandomProducts")
+    public ResponseEntity<String> createRandomProducts(){
+        productService.createRandomProducts();
+        return new ResponseEntity<>("Created", HttpStatus.CREATED);
+    }
+
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product){
         Product savedproduct = productService.createProduct(product);
